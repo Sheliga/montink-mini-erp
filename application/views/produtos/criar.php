@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html>
+<link href="<?php echo base_url(); ?>public/css/bootstrap.min.css" rel="stylesheet">
+<script src="<?php echo base_url(); ?>public/js/bootstrap.min.js"></script>
 
 <head>
     <title>Criar Produto</title>
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"> -->
     <script>
         function adicionarVariacao() {
             const container = document.getElementById('variacoes');
             const div = document.createElement('div');
             div.className = 'mb-2 row';
             div.innerHTML = `
-                <div class="col"><input type="text" name="variacao[]" class="form-control" placeholder="Variação (ex: Tamanho P)"></div>
-                <div class="col"><input type="number" name="quantidade[]" class="form-control" placeholder="Quantidade"></div>
+                <div class="col">
+                    <input type="text" name="variacoes[nome][]" class="form-control" placeholder="Variação (ex: Tamanho P)" required>
+                </div>
+                <div class="col">
+                    <input type="number" name="variacoes[quantidade][]" class="form-control" placeholder="Quantidade" required>
+                </div>
             `;
             container.appendChild(div);
         }
@@ -21,7 +26,7 @@
 <body class="p-4">
     <div class="container">
         <h1>Novo Produto</h1>
-        <form method="post">
+        <form method="post" action="<?= site_url('produtos/criar') ?>">
             <div class="mb-3">
                 <label>Nome</label>
                 <input type="text" name="nome" class="form-control" required>

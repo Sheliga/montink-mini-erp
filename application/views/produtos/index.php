@@ -31,7 +31,7 @@
                         <td><?= $p->nome ?></td>
                         <td>R$ <?= number_format($p->preco, 2, ',', '.') ?></td>
                         <td>
-                            <a href="<?= site_url('produtos/editar/' . $p->id) ?>" class="btn btn-sm btn-warning">Editar</a>
+                            <a href="<?= site_url('produtos/update/' . $p->id) ?>" class="btn btn-sm btn-warning">Editar</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

@@ -2,8 +2,8 @@
 
 ## 🚀 Planejamento Inicial
 
-- [ ] Ler todas as instruções do teste
-- [ ] Criar repositório GitHub público
+- [X] Ler todas as instruções do teste
+- [X] Criar repositório GitHub público
 - [X] Clonar CodeIgniter 3 (https://codeigniter.com/)
 - [X] Adicionar estrutura MVC inicial (controllers, models, views)
 - [X] Adicionar Bootstrap ao projeto
@@ -40,14 +40,14 @@
 ## 📦 CRUD de Produtos e Estoque
 
 - [X] Controller: `Produtos.php`
-- [ ] Model: `Produto_model.php`
+- [X] Model: `Produto_model.php`
 - [ ] Views:
   - [X] `produtos/index.php`
   - [X] `produtos/form.php`
 - [ ] Lógica:
-  - [ ] Cadastro com nome, preço, variações, estoque
+  - [X] Cadastro com nome, preço, variações, estoque
   - [ ] Update de produto e estoque
-  - [ ] Relacionar `produtos` ↔ `estoques`
+  - [X] Relacionar `produtos` ↔ `estoques`
 
 ---
 
@@ -106,6 +106,6 @@
   - [ ] Tecnologias
   - [ ] Rodando com Docker
   - [ ] Estrutura do banco
-- [ ] Adicionar script SQL no repositório
+- [X] Adicionar script SQL no repositório
 - [ ] Subir tudo no GitHub
 - [ ] Enviar link do repositório público

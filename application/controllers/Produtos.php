@@ -21,29 +21,71 @@ class Produtos extends CI_Controller
 
     public function criar()
     {
-        if ($_POST) {
-            $produtoData = [
-                'nome' => $this->input->post('nome'),
-                'preco' => $this->input->post('preco')
-            ];
-            $produto_id = $this->Produto_model->insert($produtoData);
+        $this->load->model('Produto_model');
+        $this->load->model('Estoque_model');
 
-            $variacoes = $this->input->post('variacao');
-            $quantidades = $this->input->post('quantidade');
+        if ($this->input->method() === 'post') {
+            $nome = $this->input->post('nome');
+            $preco = $this->input->post('preco');
+            $variacoes = $this->input->post('variacoes');
 
-            foreach ($variacoes as $index => $variacao) {
-                $this->Estoque_model->insert([
-                    'produto_id' => $produto_id,
-                    'variacao' => $variacao,
-                    'quantidade' => $quantidades[$index]
-                ]);
+            $produto_id = $this->Produto_model->insert([
+                'nome' => $nome,
+                'preco' => $preco
+            ]);
+
+            if ($produto_id && isset($variacoes['nome'], $variacoes['quantidade'])) {
+                for ($i = 0; $i < count($variacoes['nome']); $i++) {
+                    $this->Estoque_model->insert([
+                        'produto_id' => $produto_id,
+                        'variacao' => $variacoes['nome'][$i],
+                        'quantidade' => $variacoes['quantidade'][$i]
+                    ]);
+                }
             }
 
-            $this->session->set_flashdata('success', 'Produto criado com sucesso.');
             redirect('produtos');
         }
 
         $this->load->view('produtos/criar');
+    }
+
+    public function update($id)
+    {
+        $this->load->model('Produto_model');
+        $this->load->model('Estoque_model');
+
+        if ($this->input->method() === 'post') {
+            $nome = $this->input->post('nome');
+            $preco = $this->input->post('preco');
+            $variacoes = $this->input->post('variacoes');
+            $estoque_ids = $this->input->post('estoque_ids');
+
+            $this->Produto_model->update($id, [
+                'nome' => $nome,
+                'preco' => $preco
+            ]);
+
+            foreach ($variacoes['nome'] as $i => $variacao_nome) {
+                $estoque_data = [
+                    'produto_id' => $id,
+                    'variacao' => $variacao_nome,
+                    'quantidade' => $variacoes['quantidade'][$i]
+                ];
+
+                if (isset($estoque_ids[$i]) && $estoque_ids[$i] > 0) {
+                    $this->Estoque_model->update($estoque_ids[$i], $estoque_data);
+                } else {
+                    $this->Estoque_model->insert($estoque_data);
+                }
+            }
+
+            redirect('produtos');
+        }
+
+        $data['produto'] = $this->Produto_model->get_by_id($id);
+        $data['estoques'] = $this->Estoque_model->get_by_produto($id);
+        $this->load->view('produtos/update', $data);
     }
 
     public function editar($id)

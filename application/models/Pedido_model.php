@@ -17,8 +17,9 @@ class Pedido_model extends CI_Model
 
     public function insert($data)
     {
-        $this->db->insert($this->table, $data);
-        return $this->db->insert_id();
+        // $this->db->insert($this->table, $data);
+        // return $this->db->insert_id();
+        return "";
     }
 
     public function update_status($id, $status)
@@ -29,5 +30,19 @@ class Pedido_model extends CI_Model
     public function delete($id)
     {
         return $this->db->delete($this->table, ['id' => $id]);
+    }
+    public function salvar_pedido($dados)
+    {
+        $this->db->insert('pedidos', $dados);
+        return $this->db->insert_id();
+    }
+
+    public function atualizar_estoque($itens)
+    {
+        foreach ($itens as $item) {
+            $this->db->where('id', $item['estoque_id']);
+            $this->db->set('quantidade', 'quantidade - ' . (int)$item['quantidade'], FALSE);
+            $this->db->update('estoques');
+        }
     }
 }

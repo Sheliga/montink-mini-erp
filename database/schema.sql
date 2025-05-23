@@ -26,7 +26,8 @@ CREATE TABLE cupons (
     id INT AUTO_INCREMENT PRIMARY KEY,
     codigo VARCHAR(50) UNIQUE NOT NULL,
     validade DATE NOT NULL,
-    valor_minimo DECIMAL(10, 2) NOT NULL,
+    tipo ENUM('valor', 'porcentagem') NOT NULL DEFAULT 'valor',
+    valor_minimo DECIMAL(10, 2) DEFAULT NULL,
     desconto DECIMAL(10, 2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

@@ -13,11 +13,37 @@ class Produtos extends CI_Controller
         $this->load->library('session');
     }
 
+    // public function index()
+    // {
+    //     $this->load->model('Produto_model');
+    //     $data['produtos'] = $this->Produto_model->get_all_com_estoque();
+    //     $this->load->view('produtos/index', $data);
+    // }
+
     public function index()
     {
-        $data['produtos'] = $this->Produto_model->get_all();
-        $this->load->view('produtos/index', $data);
+        $dados['produtos_agrupados'] = $this->Produto_model->listarComVariacoesAgrupadas();
+
+        $this->load->view('produtos/index', $dados);
     }
+
+    public function delete($id)
+    {
+        $this->load->model('Produto_model');
+        $this->Produto_model->delete($id);
+        $this->session->set_flashdata('success', 'Produto excluído com sucesso.');
+        redirect('produtos');
+    }
+    public function delete_variacao($id)
+    {
+        $this->load->model('Produto_model');
+        $this->Produto_model->delete_variacao($id);
+        $this->session->set_flashdata('success', 'Variação excluída com sucesso.');
+        redirect('produtos');
+    }
+
+
+
 
     public function criar()
     {

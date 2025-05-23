@@ -8,6 +8,7 @@ class Cupons extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Coupon_model');
+        $this->load->library('session');
     }
 
     public function index()

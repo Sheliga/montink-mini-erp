@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Criar Produto</title>
+    <title>Editar Produto</title>
 
     <link href="<?= base_url(); ?>public/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -16,11 +16,6 @@
 
         .card {
             border-radius: 12px;
-        }
-
-        .form-section-title {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
         }
 
         .variacao-group {
@@ -42,7 +37,7 @@
         <div class="col-md-8 offset-md-2">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h3 class="card-title mb-4">📦 Novo Produto</h3>
+                    <h3 class="card-title mb-4">✏️ Editar Produto</h3>
 
                     <?php if ($this->session->flashdata('success')): ?>
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -53,20 +48,38 @@
                         </div>
                     <?php endif; ?>
 
-                    <form method="post" action="<?= site_url('produtos/criar') ?>">
+                    <form method="post" action="<?= site_url('produtos/update/' . $produto->id) ?>">
                         <div class="mb-3">
                             <label for="nome" class="form-label">Nome do Produto</label>
-                            <input type="text" id="nome" name="nome" class="form-control" required placeholder="Ex: Camiseta Básica">
+                            <input type="text" id="nome" name="nome" class="form-control" required value="<?= $produto->nome ?>">
                         </div>
 
                         <div class="mb-3">
                             <label for="preco" class="form-label">Preço</label>
-                            <input type="number" step="0.01" id="preco" name="preco" class="form-control" required placeholder="Ex: 79.90">
+                            <input type="number" step="0.01" id="preco" name="preco" class="form-control" required value="<?= $produto->preco ?>">
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Variações de Estoque</label>
-                            <div id="variacoes"></div>
+                            <div id="variacoes">
+                                <?php foreach ($estoques as $estoque): ?>
+                                    <div class="variacao-group row">
+                                        <input type="hidden" name="estoque_ids[]" value="<?= $estoque->id ?>">
+                                        <div class="col-md-6 mb-2">
+                                            <input type="text" name="variacoes[nome][]" class="form-control" value="<?= $estoque->variacao ?>" required>
+                                        </div>
+                                        <div class="col-md-4 mb-2">
+                                            <input type="number" name="variacoes[quantidade][]" class="form-control" value="<?= $estoque->quantidade ?>" required>
+                                        </div>
+                                        <div class="col-md-2 mb-2 text-right">
+                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.variacao-group').remove()" title="Remover Variação">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+
                             <button type="button" onclick="adicionarVariacao()" class="btn btn-outline-secondary btn-sm mt-2">
                                 <i class="fas fa-plus"></i> Adicionar Variação
                             </button>
@@ -74,7 +87,7 @@
 
                         <div class="mt-4">
                             <button type="submit" class="btn btn-success">
-                                <i class="fas fa-save"></i> Salvar
+                                <i class="fas fa-save"></i> Salvar Alterações
                             </button>
                             <a href="<?= site_url('produtos') ?>" class="btn btn-secondary">
                                 <i class="fas fa-times"></i> Cancelar
@@ -86,7 +99,7 @@
         </div>
     </div>
 
-    <!-- JS -->
+    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="<?= base_url(); ?>public/js/bootstrap.min.js"></script>
 
@@ -97,8 +110,9 @@
             div.className = 'variacao-group row';
 
             div.innerHTML = `
+                <input type="hidden" name="estoque_ids[]" value="0">
                 <div class="col-md-6 mb-2">
-                    <input type="text" name="variacoes[nome][]" class="form-control" placeholder="Variação (ex: Tamanho P)" required>
+                    <input type="text" name="variacoes[nome][]" class="form-control" placeholder="Variação (ex: Tamanho M)" required>
                 </div>
                 <div class="col-md-4 mb-2">
                     <input type="number" name="variacoes[quantidade][]" class="form-control" placeholder="Quantidade" required>

@@ -213,11 +213,17 @@ class Carrinho extends CI_Controller
             'created_at'            => date('Y-m-d H:i:s'),
         ];
 
+
         $pedido_id = $this->Pedido_model->salvar_pedido($dados_pedido);
+
         $this->Pedido_model->atualizar_estoque($itens);
+        if (!empty($email_cliente)) {
+            $this->Pedido_model->enviar_email_confirmacao($email_cliente, $pedido_id, $itens, $total);
+        }
         $this->session->unset_userdata('carrinho');
 
         $this->session->set_flashdata('success', "Pedido #{$pedido_id} finalizado com sucesso.");
+
         redirect('produtos');
     }
 

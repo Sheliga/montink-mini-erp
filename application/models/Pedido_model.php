@@ -21,6 +21,30 @@ class Pedido_model extends CI_Model
         // return $this->db->insert_id();
         return "";
     }
+    public function enviar_email_confirmacao($email, $pedido_id, $itens, $total)
+    {
+        $this->load->library('email');
+        $this->load->config('email');
+
+        $mensagem = "<h3>Confirmação do Pedido #{$pedido_id}</h3>";
+        $mensagem .= "<p>Obrigado pela sua compra!</p>";
+        $mensagem .= "<p><strong>Total:</strong> R$ " . number_format($total, 2, ',', '.') . "</p>";
+        $mensagem .= "<h4>Itens:</h4><ul>";
+
+        foreach ($itens as $item) {
+            $mensagem .= "<li>{$item['nome']} - {$item['quantidade']} x R$ " . number_format($item['preco'], 2, ',', '.') . "</li>";
+        }
+
+        $mensagem .= "</ul>";
+
+        $this->email->from('loja@seudominio.com', 'Mini ERP');
+        $this->email->to($email);
+        $this->email->subject("Confirmação do Pedido #{$pedido_id}");
+        $this->email->message($mensagem);
+
+        return $this->email->send();
+    }
+
 
     public function update_status($id, $status)
     {

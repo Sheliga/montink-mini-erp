@@ -67,21 +67,21 @@
   - [ ] Gerencie controle de estoque e valores do pedido (incluindo decremento no estoque)
 - [ ] Lógica do carrinho:
   - [X] Calcular o subtotal dos produtos do carrinho
-  - [ ] Aplicar regras de frete:
+  - [X] Aplicar regras de frete:
     - [X] Frete de R$15,00 para subtotais entre R$52,00 e R$166,59
     - [X] Frete grátis para subtotais acima de R$200,00
-    - [ ] Frete de R$20,00 para os demais casos
+    - [X] Frete de R$20,00 para os demais casos
 - [ ] Finalizar o pedido:
-  - [ ] Gravar o pedido na tabela `pedidos`, com os produtos (em formato serializado, por exemplo, JSON)
+  - [X] Gravar o pedido na tabela `pedidos`, com os produtos (em formato serializado, por exemplo, JSON)
   - [ ] Atualizar o estoque conforme itens vendidos
 
 ---
 
 ## 🌎 Verificação de CEP com ViaCEP
 
-- [ ] Implementar AJAX para consulta ao endpoint do ViaCEP (https://viacep.com.br/)
-- [ ] Buscar e preencher automaticamente os dados do endereço no formulário do pedido
-- [ ] Validar e tratar erros na consulta do CEP
+- [X] Implementar AJAX para consulta ao endpoint do ViaCEP (https://viacep.com.br/)
+- [X] Buscar e preencher automaticamente os dados do endereço no formulário do pedido
+- [X] Validar e tratar erros na consulta do CEP
 
 ---
 
@@ -98,9 +98,9 @@
 
 ## ✉️ Envio de E-mail (Bônus)
 
-- [ ] Configurar a CI Email Library do CodeIgniter
+- [X] Configurar a CI Email Library do CodeIgniter
 - [ ] Desenvolver template de e-mail com o resumo do pedido (itens, subtotal, frete, total e endereço)
-- [ ] Integrar e disparar o envio de e-mail ao finalizar o pedido
+- [X] Integrar e disparar o envio de e-mail ao finalizar o pedido
 - [ ] Testar envio e formatar corretamente as informações do e-mail
 
 ---
@@ -122,9 +122,9 @@
 - [ ] Testar todos os fluxos da aplicação:
   - [ ] Cadastro e update de produtos/estoque
   - [ ] Fluxo de compra e gerenciamento do carrinho (incluindo regras de frete)
-  - [ ] Consulta de CEP com ViaCEP
+  - [X] Consulta de CEP com ViaCEP
   - [ ] Uso e aplicação de cupons
-  - [ ] Envio de e-mail de confirmação de pedido
+  - [X] Envio de e-mail de confirmação de pedido
   - [ ] Recebimento e tratamento do webhook
 - [ ] Tratar exceções (ex.: falha na consulta de CEP, problemas no envio de e-mail, inconsistências no estoque)
 - [ ] Validar a consistência dos dados (pedido, estoque, etc.)

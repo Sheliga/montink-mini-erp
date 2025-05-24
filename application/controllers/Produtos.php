@@ -13,43 +13,37 @@ class Produtos extends CI_Controller
         $this->load->library('session');
     }
 
-    // public function index()
-    // {
-    //     $this->load->model('Produto_model');
-    //     $data['produtos'] = $this->Produto_model->get_all_com_estoque();
-    //     $this->load->view('produtos/index', $data);
-    // }
-
     public function index()
     {
-        $dados['produtos_agrupados'] = $this->Produto_model->listarComVariacoesAgrupadas();
+        $produtos_agrupados = $this->Produto_model->listarComVariacoesAgrupadas();
 
-        $this->load->view('produtos/index', $dados);
+        $data = array(
+            "produtos_agrupados" => $produtos_agrupados,
+            "scripts" => array(
+                "js/owl.carousel.min.js",
+                "js/theme-scripts.js"
+            )
+        );
+
+        $this->template->show("produtos/index.php", $data);
     }
 
     public function delete($id)
     {
-        $this->load->model('Produto_model');
         $this->Produto_model->delete($id);
         $this->session->set_flashdata('success', 'Produto excluído com sucesso.');
         redirect('produtos');
     }
+
     public function delete_variacao($id)
     {
-        $this->load->model('Produto_model');
         $this->Produto_model->delete_variacao($id);
         $this->session->set_flashdata('success', 'Variação excluída com sucesso.');
         redirect('produtos');
     }
 
-
-
-
     public function criar()
     {
-        $this->load->model('Produto_model');
-        $this->load->model('Estoque_model');
-
         if ($this->input->method() === 'post') {
             $nome = $this->input->post('nome');
             $preco = $this->input->post('preco');
@@ -73,14 +67,17 @@ class Produtos extends CI_Controller
             redirect('produtos');
         }
 
-        $this->load->view('produtos/criar');
+        // $data = [
+        //     "scripts" => ["js/form-validation.js"]
+        // ];
+
+        // $this->template->show('produtos/criar.php', $data);
+        $data = ["scripts" => ["js/form-validation.js", "theme-scripts.js"]];
+        $this->template->show('produtos/form', $data);
     }
 
     public function update($id)
     {
-        $this->load->model('Produto_model');
-        $this->load->model('Estoque_model');
-
         if ($this->input->method() === 'post') {
             $nome = $this->input->post('nome');
             $preco = $this->input->post('preco');
@@ -109,9 +106,13 @@ class Produtos extends CI_Controller
             redirect('produtos');
         }
 
-        $data['produto'] = $this->Produto_model->get_by_id($id);
-        $data['estoques'] = $this->Estoque_model->get_by_produto($id);
-        $this->load->view('produtos/update', $data);
+        $data = [
+            'produto' => $this->Produto_model->get_by_id($id),
+            'estoques' => $this->Estoque_model->get_by_produto($id),
+            'scripts' => ['js/form-validation.js']
+        ];
+
+        $this->template->show('produtos/update.php', $data);
     }
 
     public function editar($id)
@@ -147,9 +148,12 @@ class Produtos extends CI_Controller
             redirect('produtos');
         }
 
-        $data['produto'] = $produto;
-        $data['estoques'] = $estoques;
+        $data = [
+            'produto' => $produto,
+            'estoques' => $estoques,
+            'scripts' => ['js/form-validation.js']
+        ];
 
-        $this->load->view('produtos/editar', $data);
+        $this->template->show('produtos/editar.php', $data);
     }
 }

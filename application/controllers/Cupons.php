@@ -3,7 +3,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Cupons extends CI_Controller
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -13,18 +12,27 @@ class Cupons extends CI_Controller
 
     public function index()
     {
-        $data['cupons'] = $this->Coupon_model->get_all();
-        $this->load->view('cupons/index', $data);
+        $cupons = $this->Coupon_model->get_all();
+        $data = array(
+            "cupons" => $cupons,
+            "scripts" => array(
+                "js/datatables.min.js", // se usar datatables
+                "js/cupom.js"           // exemplo de script customizado
+            )
+        );
+
+        $this->template->show("cupons/index.php", $data);
     }
 
     public function create()
     {
-        if ($this->input->post()) {
-            $data = $this->input->post();
-            $this->Coupon_model->insert($data);
-            redirect('cupons');
-        }
-        $this->load->view('cupons/create');
+        $data = array(
+            "scripts" => array(
+                "js/form-validation.js"
+            )
+        );
+
+        $this->template->show("cupons/create.php", $data);
     }
 
     public function insert()
@@ -43,17 +51,16 @@ class Cupons extends CI_Controller
         redirect('cupons');
     }
 
-
     public function edit($id)
     {
-        if ($this->input->post()) {
-            $data = $this->input->post();
-            $this->Coupon_model->update($id, $data);
-            redirect('cupons');
-        }
+        $data = array(
+            "cupom" => $this->Coupon_model->get($id),
+            "scripts" => array(
+                "js/form-validation.js"
+            )
+        );
 
-        $data['cupom'] = $this->Coupon_model->get($id);
-        $this->load->view('cupons/edit', $data);
+        $this->template->show("cupons/edit.php", $data);
     }
 
     public function update($id)

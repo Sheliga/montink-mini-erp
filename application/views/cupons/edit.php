@@ -1,49 +1,45 @@
-<!DOCTYPE html>
-<html>
+<?php $this->load->view('layouts/header', ['title' => 'Editar Cupom']); ?>
+<?php $this->load->view('layouts/navbar'); ?>
 
-<head>
-    <title>Editar Cupom</title>
-    <link href="<?php echo base_url(); ?>public/css/bootstrap.min.css" rel="stylesheet">
-    <script src="<?php echo base_url(); ?>public/js/bootstrap.min.js"></script>
-</head>
+<div class="container">
+    <h1 class="mb-4">Editar Cupom</h1>
 
-<body class="p-4">
-    <div class="container">
-        <h1>Editar Cupom</h1>
+    <form action="<?= site_url('cupons/update/' . $cupom->id) ?>" method="post">
+        <div class="mb-3">
+            <label for="codigo">Código</label>
+            <input type="text" id="codigo" name="codigo" class="form-control"
+                value="<?= htmlspecialchars($cupom->codigo, ENT_QUOTES, 'UTF-8') ?>" required>
+        </div>
 
-        <form action="<?= site_url('cupons/update/' . $cupom->id) ?>" method="post">
-            <div class="mb-3">
-                <label>Código</label>
-                <input type="text" name="codigo" class="form-control" value="<?= $cupom->codigo ?>" required>
-            </div>
+        <div class="mb-3">
+            <label for="validade">Validade</label>
+            <input type="date" id="validade" name="validade" class="form-control"
+                value="<?= htmlspecialchars($cupom->validade, ENT_QUOTES, 'UTF-8') ?>" required>
+        </div>
 
-            <div class="mb-3">
-                <label>Validade</label>
-                <input type="date" name="validade" class="form-control" value="<?= $cupom->validade ?>" required>
-            </div>
+        <div class="mb-3">
+            <label for="tipo">Tipo de Desconto</label>
+            <select id="tipo" name="tipo" class="form-control" required>
+                <option value="reais" <?= $cupom->tipo === 'reais' ? 'selected' : '' ?>>Reais (R$)</option>
+                <option value="porcentagem" <?= $cupom->tipo === 'porcentagem' ? 'selected' : '' ?>>Porcentagem (%)</option>
+            </select>
+        </div>
 
-            <div class="mb-3">
-                <label>Tipo de Desconto</label>
-                <select name="tipo" class="form-control" required>
-                    <option value="reais" <?= $cupom->tipo === 'reais' ? 'selected' : '' ?>>Reais (R$)</option>
-                    <option value="porcentagem" <?= $cupom->tipo === 'porcentagem' ? 'selected' : '' ?>>Porcentagem (%)</option>
-                </select>
-            </div>
+        <div class="mb-3">
+            <label for="desconto">Desconto</label>
+            <input type="number" id="desconto" name="desconto" class="form-control"
+                value="<?= htmlspecialchars($cupom->desconto, ENT_QUOTES, 'UTF-8') ?>" step="0.01" required>
+        </div>
 
-            <div class="mb-3">
-                <label>Desconto</label>
-                <input type="number" name="desconto" class="form-control" value="<?= $cupom->desconto ?>" step="0.01" required>
-            </div>
+        <div class="mb-3">
+            <label for="valor_minimo">Valor Mínimo (opcional)</label>
+            <input type="number" id="valor_minimo" name="valor_minimo" class="form-control"
+                value="<?= htmlspecialchars($cupom->valor_minimo, ENT_QUOTES, 'UTF-8') ?>" step="0.01">
+        </div>
 
-            <div class="mb-3">
-                <label>Valor Mínimo (opcional)</label>
-                <input type="number" name="valor_minimo" class="form-control" value="<?= $cupom->valor_minimo ?>" step="0.01">
-            </div>
+        <button type="submit" class="btn btn-primary">Atualizar</button>
+        <a href="<?= site_url('cupons') ?>" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
 
-            <button class="btn btn-primary">Atualizar</button>
-            <a href="<?= site_url('cupons') ?>" class="btn btn-secondary">Cancelar</a>
-        </form>
-    </div>
-</body>
-
-</html>
+<?php $this->load->view('layouts/footer'); ?>

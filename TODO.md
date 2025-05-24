@@ -88,7 +88,7 @@
 ## 🎟️ Cupons (Bônus)
 
 - [ ] CRUD de cupons:
-  - [ ] Criar interface (ou utilizar migrações) para cadastro, atualização e exclusão de cupons
+  - [X] Criar interface (ou utilizar migrações) para cadastro, atualização e exclusão de cupons
 - [ ] Validação de cupons:
   - [ ] Verificar a validade (data de expiração) e o valor mínimo do cupom em relação ao subtotal do carrinho
 - [ ] Aplicar desconto do cupom no cálculo do carrinho

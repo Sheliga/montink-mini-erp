@@ -68,26 +68,55 @@ class Carrinho extends CI_Controller
         redirect($this->agent->referrer());
     }
 
+    // public function index()
+    // {
+    //     $itens = $this->session->userdata('carrinho') ?? [];
+    //     $subtotal = array_sum(array_map(function ($item) {
+    //         return $item['preco'] * $item['quantidade'];
+    //     }, $itens));
+    //     $frete = $this->calcular_frete($subtotal);
+    //     $total = $subtotal + $frete;
+
+    //     $dados = [
+    //         'itens'    => $itens,
+    //         'subtotal' => $subtotal,
+    //         'frete'    => $frete,
+    //         'total'    => $total,
+    //     ];
+
+    //     $this->load->view('carrinho/index', $dados);
+    // }
+
     public function index()
     {
         $itens = $this->session->userdata('carrinho') ?? [];
+
+        // Remove itens inválidos
+        $itens = $this->limpar_itens_invalidos($itens);
+        $this->session->set_userdata('carrinho', $itens);
+
+        // Calcula subtotal, frete e total
         $subtotal = array_sum(array_map(function ($item) {
             return $item['preco'] * $item['quantidade'];
         }, $itens));
+
         $frete = $this->calcular_frete($subtotal);
         $total = $subtotal + $frete;
 
-        $dados = [
+        // Prepara os dados para a view
+        $data = [
             'itens'    => $itens,
             'subtotal' => $subtotal,
             'frete'    => $frete,
             'total'    => $total,
+            'scripts'  => [
+                'js/carrinho.js' // se quiser scripts personalizados
+            ]
         ];
 
-        $this->load->view('carrinho/index', $dados);
+        // Usa o sistema de templates
+        $this->template->show('carrinho/index.php', $data);
     }
-
-
     public function remover($estoque_id = null)
     {
         if (!$estoque_id) {
@@ -143,7 +172,6 @@ class Carrinho extends CI_Controller
     public function finalizar()
     {
         $itens = $this->session->userdata('carrinho') ?? [];
-        // Remover itens inválidos, se necessário
         $itens = $this->limpar_itens_invalidos($itens);
         $this->session->set_userdata('carrinho', $itens);
 
@@ -152,7 +180,18 @@ class Carrinho extends CI_Controller
             redirect('carrinho');
         }
 
-        // Calcular o subtotal de forma defensiva
+        // Recupera os dados do formulário
+        $cep           = $this->input->post('cep');
+        $endereco      = $this->input->post('endereco');      // Ex: rua, número, complemento
+        $email_cliente = $this->input->post('email_cliente');
+
+        // Validação básica (exemplo)
+        if (empty($cep)) {
+            $this->session->set_flashdata('error', 'Informe um CEP válido.');
+            redirect('carrinho');
+        }
+
+        // Calcula subtotal e total
         $subtotal = array_sum(array_map(function ($i) {
             $preco = isset($i['preco']) ? (float)$i['preco'] : 0;
             $quantidade = isset($i['quantidade']) ? (int)$i['quantidade'] : 0;
@@ -162,13 +201,16 @@ class Carrinho extends CI_Controller
         $frete = $this->calcular_frete($subtotal);
         $total = $subtotal + $frete;
 
-        // Use a chave 'produtos_serializados' (conforme definido na tabela) em vez de 'itens'
+        // Monta o pedido para inserção
         $dados_pedido = [
             'produtos_serializados' => json_encode($itens),
             'subtotal'              => $subtotal,
             'frete'                 => $frete,
             'total'                 => $total,
-            'created_at'            => date('Y-m-d H:i:s')
+            'cep'                   => $cep,
+            'endereco'              => $endereco,
+            'email_cliente'         => $email_cliente,
+            'created_at'            => date('Y-m-d H:i:s'),
         ];
 
         $pedido_id = $this->Pedido_model->salvar_pedido($dados_pedido);
@@ -178,6 +220,7 @@ class Carrinho extends CI_Controller
         $this->session->set_flashdata('success', "Pedido #{$pedido_id} finalizado com sucesso.");
         redirect('produtos');
     }
+
     /**
      * Método privado para calcular o frete com base no subtotal.
      *

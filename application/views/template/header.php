@@ -23,10 +23,32 @@
 
 	<!-- Estilos adicionais -->
 	<style>
+		body,
+		html {
+			height: 100%;
+			margin: 0;
+		}
+
 		/* Modo Escuro */
 		body.dark-mode {
 			background-color: #121212;
 			color: #ffffff;
+		}
+
+		body,
+		html {
+			height: 100%;
+			margin: 0;
+		}
+
+		.vertical-center-wrapper {
+			min-height: 100vh;
+			/* ocupa a tela toda */
+			display: flex;
+			align-items: center;
+			/* centraliza verticalmente */
+			justify-content: center;
+			/* centraliza horizontalmente (opcional) */
 		}
 
 		.navbar-nav {
@@ -69,6 +91,10 @@
 			animation: fadeIn 0.3s ease-in-out;
 		}
 
+		.d-none {
+			display: none;
+		}
+
 		@keyframes fadeIn {
 			from {
 				opacity: 0;
@@ -99,7 +125,7 @@
 	<nav class="navbar navbar-default navbar-shrink navbar-fixed-top list-unstyled">
 
 		<div class="container">
-			<a class="navbar-brand" href="<?= site_url('') ?>">Mini ERP</a>
+			<a class="navbar-brand" href="<?php echo base_url(); ?>">Mini ERP</a>
 			<!-- <button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
 				aria-label="Alternar navegação">
@@ -146,7 +172,7 @@
 									</div>
 								<?php endforeach; ?>
 								<div class="text-right mt-3">
-									<a href="<?= site_url('carrinho') ?>" class="btn btn-sm btn-primary btn-block">Ver Carrinho</a>
+									<a href="<?php echo base_url(); ?>carrinho" class="btn btn-sm btn-primary btn-block">Ver Carrinho</a>
 								</div>
 							<?php endif; ?>
 						</div>

@@ -48,7 +48,12 @@
 			align-items: center;
 			/* centraliza verticalmente */
 			justify-content: center;
-			/* centraliza horizontalmente (opcional) */
+
+
+		}
+
+		.vertical-center-wrapper .margin-around {
+			margin: 7rem;
 		}
 
 		.navbar-nav {
@@ -134,6 +139,9 @@
 
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav  navbar-right align-items-center">
+					<li class="nav-item mx-3 p-2">
+						<a class="nav-link" href="<?php echo base_url(); ?>pedidos">Pedidos</a>
+					</li>
 					<li class="nav-item mx-3 p-2">
 						<a class="nav-link" href="<?php echo base_url(); ?>produtos">Produtos</a>
 					</li>

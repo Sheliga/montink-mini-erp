@@ -9,6 +9,7 @@ class Pedidos extends CI_Controller
         $this->load->model('Produto_model');
         $this->load->model('Pedido_model');
         $this->load->library('session');
+        $this->load->model('Estoque_model');
         $this->load->library('user_agent');
     }
     /**

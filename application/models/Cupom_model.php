@@ -15,6 +15,12 @@ class Cupom_model extends CI_Model
     {
         return $this->db->get($this->table)->result();
     }
+    public function buscar_cupom_valido($codigo)
+    {
+        $this->db->where('codigo', $codigo);
+        // $this->db->where('validade >=', date('Y-m-d'));
+        return $this->db->get('cupons')->row_array();
+    }
 
     public function get($id)
     {

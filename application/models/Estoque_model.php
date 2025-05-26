@@ -24,4 +24,12 @@ class Estoque_model extends CI_Model
     {
         return $this->db->delete($this->table, ['produto_id' => $produto_id]);
     }
+    public function get_by_produto_and_estoque_id($produto_id, $estoque_id)
+    {
+        return $this->db
+            ->where('produto_id', $produto_id)
+            ->where('id', $estoque_id)
+            ->get($this->table)
+            ->row();
+    }
 }

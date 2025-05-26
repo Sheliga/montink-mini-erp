@@ -2,7 +2,7 @@
 
 
     <div class="container margin-around mt-5">
-        <h2 class="mb-4">Finalizard Pedido</h2>
+        <h2 class="mb-4">Finalizar Pedido</h2>
 
         <?php if ($this->session->flashdata('error')): ?>
             <div class="alert alert-danger"><?= $this->session->flashdata('error') ?></div>
@@ -36,6 +36,12 @@
                     <?php endforeach; ?>
                 </tbody>
                 <tfoot>
+                    <?php if (!empty($desconto)): ?>
+                        <tr>
+                            <th colspan="4" class="text-right text-success">Desconto:</th>
+                            <th class="text-success">- R$ <?= number_format($desconto, 2, ',', '.') ?></th>
+                        </tr>
+                    <?php endif; ?>
                     <tr>
                         <th colspan="4" class="text-right">Subtotal:</th>
                         <th>R$ <?= number_format($subtotal, 2, ',', '.') ?></th>
@@ -57,6 +63,15 @@
                     <label for="email_cliente">Seu e-mail:</label>
                     <input type="email" name="email_cliente" class="form-control" id="email_cliente" required>
                 </div>
+                <div class="form-group">
+                    <label for="codigo_cupom">Cupom de Desconto</label>
+
+                    <input type="text" class="form-control" id="codigo_cupom" name="codigo_cupom" value="<?= isset($codigo_cupom) ? htmlspecialchars($codigo_cupom, ENT_QUOTES, 'UTF-8') : '' ?>">
+
+                </div>
+
+
+
 
                 <div class="form-group">
                     <label for="cep">CEP</label>

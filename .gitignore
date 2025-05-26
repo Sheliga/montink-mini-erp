@@ -1,0 +1,60 @@
+# Diretórios do CodeIgniter
+application/cache/*
+!application/cache/index.html
+application/logs/*
+!application/logs/index.html
+application/config/*.php~
+application/config/*/development/
+application/config/*/testing/
+application/config/*/production/
+
+# Arquivos de sistema
+*.bak
+*.tmp
+*.swp
+*.swo
+*.log
+*.DS_Store
+*.idea/
+*.vscode/
+*.env
+
+# Composer
+/vendor/
+/composer.lock
+
+# Node (se usar para assets)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Docker
+docker-compose.override.yml
+.env.docker
+
+# Sistemas de cache e uploads
+/storage/
+uploads/
+*.zip
+*.tar
+*.gz
+
+# Arquivos de banco de dados locais
+*.sql
+*.sqlite
+
+# PHPUnit
+phpunit.xml
+phpunit.result.cache
+
+# Ignorar o .env se estiver usando
+.env
+
+# Cache do CodeIgniter 3
+application/cache/*
+!application/cache/index.html
+
+# Ignorar arquivos do Windows e macOS
+Thumbs.db
+ehthumbs.db
+.DS_Store
